@@ -21,6 +21,7 @@
         <jakartaee-api.version>11.0.0</jakartaee-api.version>
         <compiler-plugin.version>3.15.0</compiler-plugin.version>
         <war-plugin.version>3.5.1</war-plugin.version>
+        <junit.version>5.14.0</junit.version>
     </properties>
 
     <dependencies>
@@ -30,6 +31,28 @@
             <version>${jakartaee-api.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>9.0.1.Final</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-core</artifactId>
+            <version>7.0.0.Final</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
