@@ -3,7 +3,6 @@ package se.lernia.jakarta.service;
 import se.lernia.jakarta.dto.PetDTO;
 import se.lernia.jakarta.exception.PetNotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -20,9 +19,24 @@ public class PetService {
 
     public PetDTO createPet(PetDTO pet) {
         Long id = getNextId();
-        pet.setId(id);
-        pets.put(id, pet);
-        return pet;
+
+        PetDTO createdPet = new PetDTO(
+                id,
+                pet.getName(),
+                pet.getSpecies(),
+                pet.getHungerLevel(),
+                pet.getHappiness()
+        );
+
+        pets.put(id, createdPet);
+
+        return new PetDTO(
+                createdPet.getId(),
+                createdPet.getName(),
+                createdPet.getSpecies(),
+                createdPet.getHungerLevel(),
+                createdPet.getHappiness()
+        );
     }
 
     public PetDTO getPetById(Long id) {
@@ -32,11 +46,26 @@ public class PetService {
             throw new PetNotFoundException(id);
         }
 
-        return pet;
+        return new PetDTO(
+                pet.getId(),
+                pet.getName(),
+                pet.getSpecies(),
+                pet.getHungerLevel(),
+                pet.getHappiness()
+        );
     }
 
     public List<PetDTO> getAllPets() {
-        return new ArrayList<>(pets.values());
+        return pets.values()
+                .stream()
+                .map(pet -> new PetDTO(
+                        pet.getId(),
+                        pet.getName(),
+                        pet.getSpecies(),
+                        pet.getHungerLevel(),
+                        pet.getHappiness()
+                ))
+                .toList();
     }
 
     public void deletePetById(Long id) {
@@ -48,7 +77,7 @@ public class PetService {
     }
 
     public PetDTO feedPet(Long id) {
-        return pets.compute(id, (key, pet) -> {
+        PetDTO updatedPet = pets.compute(id, (key, pet) -> {
 
             if (pet == null) {
                 throw new PetNotFoundException(id);
@@ -61,10 +90,18 @@ public class PetService {
 
             return pet;
         });
+
+        return new PetDTO(
+                updatedPet.getId(),
+                updatedPet.getName(),
+                updatedPet.getSpecies(),
+                updatedPet.getHungerLevel(),
+                updatedPet.getHappiness()
+        );
     }
 
-    public PetDTO playWithPet (Long id) {
-        return pets.compute(id, (key, pet) -> {
+    public PetDTO playWithPet(Long id) {
+        PetDTO updatedPet = pets.compute(id, (key, pet) -> {
 
             if (pet == null) {
                 throw new PetNotFoundException(id);
@@ -77,6 +114,13 @@ public class PetService {
 
             return pet;
         });
-    }
 
+        return new PetDTO(
+                updatedPet.getId(),
+                updatedPet.getName(),
+                updatedPet.getSpecies(),
+                updatedPet.getHungerLevel(),
+                updatedPet.getHappiness()
+        );
+    }
 }
