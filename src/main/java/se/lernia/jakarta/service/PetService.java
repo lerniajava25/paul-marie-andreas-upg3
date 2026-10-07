@@ -1,5 +1,6 @@
 package se.lernia.jakarta.service;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import se.lernia.jakarta.dto.PetDTO;
 import se.lernia.jakarta.exception.PetNotFoundException;
 
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+@ApplicationScoped
 public class PetService {
 
     private final ConcurrentHashMap<Long, PetDTO> pets = new ConcurrentHashMap<>();
